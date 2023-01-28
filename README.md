@@ -1,4 +1,4 @@
-# syndication-fetcher [![NPM Package](https://img.shields.io/npm/v/jsh.svg)](https://www.npmjs.com/package/syndication-fetcher)
+# syndication-fetcher [![NPM Package](https://img.shields.io/npm/v/syndication-fetcher.svg)](https://www.npmjs.com/package/syndication-fetcher)
 
 A RSS and Atom feed fetcher and parser.  Given a URL, it will fetch a feed and parse it into a JavaScript object.  TypeScript types are included.
 
