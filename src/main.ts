@@ -69,9 +69,9 @@ export function parseRss(rawRssDocument: any) {
       pubDate: getFeedElementText(item.pubDate),
       id: getFeedElementText(item.guid),
       description: getFeedElementText(item.description),
-      _content: getFeedElementText(item["content:encoded"]) || getFeedElementText(item.description),
-      _publishedEpoch: new Date(getFeedElementText(item.pubDate)).getTime(),
-    };
+      content: getFeedElementText(item["content:encoded"]) || getFeedElementText(item.description),
+      publishedEpoch: new Date(getFeedElementText(item.pubDate)).getTime(),
+    } as IFeedItem;
   });
 
   feed.items = feedItems;
@@ -96,9 +96,9 @@ export function parseAtom(rawAtomDocument: any) {
       pubDate: getFeedElementText(currentEntry.published),
       id: getFeedElementText(currentEntry.id),
       description: getFeedElementText(currentEntry.description),
-      _content: getFeedElementText(getFeedElementText(currentEntry.content)),
-      _publishedEpoch: new Date(getFeedElementText(currentEntry.published)).getTime(),
-    };
+      content: getFeedElementText(getFeedElementText(currentEntry.content)),
+      publishedEpoch: new Date(getFeedElementText(currentEntry.published)).getTime(),
+    } as IFeedItem;
   });
 
   feed.items = feedItems;
