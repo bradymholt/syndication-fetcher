@@ -9,7 +9,7 @@
   "author": "Brady Holt (https://www.geekytidbits.com/)",
   "license": "MIT",
   "main": "dist/cjs/main.js",
-  "module": "dist/esm/main.mjs",
+  "module": "dist/esm/main.js",
   "types": "dist/esm/main.d.ts",
   "dependencies": {
     "axios": "^1.2.4"
