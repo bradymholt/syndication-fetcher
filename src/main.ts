@@ -1,7 +1,7 @@
 import * as xmlJs from "xml-js";
 import axios from "axios";
 
-interface IFeed {
+export interface IFeed {
   title: string;
   link: string;
   description: string;
