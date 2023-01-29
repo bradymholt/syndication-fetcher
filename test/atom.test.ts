@@ -1,10 +1,10 @@
 import axios from "axios";
-import { fetchAndParseFeed } from "../src/main";
+import { fetchFeed } from "../src/main";
 
 jest.mock("axios");
 
 describe("atom", () => {
-  it("fetches a parsed a simple feed with multiple entries", async () => {
+  it("multiple entries", async () => {
     axios.get = jest.fn().mockResolvedValue({
       data: `\    
 <feed
@@ -52,7 +52,7 @@ describe("atom", () => {
 </feed>`,
     });
 
-    const result = await fetchAndParseFeed("https://www.example.com/atom");
+    const result = await fetchFeed("https://www.example.com/atom");
     expect(result).toEqual(
       expect.objectContaining({
         title: "A Test Title",
@@ -65,7 +65,7 @@ describe("atom", () => {
     );
   });
 
-  it("fetches a parsed a simple feed with a single entry", async () => {
+  it("single entry", async () => {
     axios.get = jest.fn().mockResolvedValue({
       data: `\    
 <feed
@@ -98,7 +98,7 @@ describe("atom", () => {
 </feed>`,
     });
 
-    const result = await fetchAndParseFeed("https://www.example.com/atom");    
+    const result = await fetchFeed("https://www.example.com/atom");    		
     expect(result).toEqual(
       expect.objectContaining({
         title: "A Test Title",

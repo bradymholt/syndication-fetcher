@@ -1,10 +1,10 @@
 import axios from "axios";
-import { fetchAndParseFeed } from "../src/main";
+import { fetchFeed } from "../src/main";
 
 jest.mock("axios");
 
 describe("rss", () => {
-  it("fetches a parsed a simple feed with multiple entries", async () => {
+  it("multiple entries", async () => {
     axios.get = jest.fn().mockResolvedValue({
       data: `\    
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
@@ -36,7 +36,7 @@ describe("rss", () => {
 </rss>`,
     });
 
-    const result = await fetchAndParseFeed("https://www.example.com/atom");
+    const result = await fetchFeed("https://www.example.com/atom");
     expect(result).toEqual(
       expect.objectContaining({
         title: "Geeky Tidbits",
@@ -49,8 +49,8 @@ describe("rss", () => {
     );
   });
 
-  it("fetches a parsed a simple feed with a single entry", async () => {
-		axios.get = jest.fn().mockResolvedValue({
+  it("single entry", async () => {
+    axios.get = jest.fn().mockResolvedValue({
       data: `\    
 <rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
 <channel>
@@ -72,7 +72,7 @@ describe("rss", () => {
 </rss>`,
     });
 
-    const result = await fetchAndParseFeed("https://www.example.com/atom");
+    const result = await fetchFeed("https://www.example.com/atom");
     expect(result).toEqual(
       expect.objectContaining({
         title: "Geeky Tidbits",

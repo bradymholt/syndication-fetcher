@@ -1,6 +1,6 @@
 # syndication-fetcher [![NPM Package](https://img.shields.io/npm/v/syndication-fetcher.svg)](https://www.npmjs.com/package/syndication-fetcher)
 
-A RSS and Atom feed fetcher and parser.  Given a URL, it will fetch a feed and parse it into a JavaScript object.  TypeScript types are included.
+A RSS and Atom feed fetcher and parser. Given a URL, it will fetch a feed and parse it into a JavaScript object. TypeScript types are included.
 
 ## Installation
 
@@ -14,9 +14,14 @@ npm install syndication-fetcher
 import { fetchAndParseFeed } from "syndication-fetcher";
 
 const feed = await fetchAndParseFeed("https://example.com/feed.xml");
-console.log(feed.title);
-console.log(feed.link);
-console.log(feed.entries[0].title);
+/* feed is an object with the following properties:
+{
+  title: string;
+  description: string;
+  link: string;  
+  items: Array<IFeedItem>;
+}
+*/
 ```
 
 ## TypeScript types
@@ -24,17 +29,17 @@ console.log(feed.entries[0].title);
 ```typescript
 interface IFeed {
   title: string;
-  link: string;
   description: string;
+  link: string;
   items: Array<IFeedItem>;
 }
 
-export interface IFeedItem {  
+export interface IFeedItem {
+  id: string;
   title: string;
+  description: string;
   link: string;
   pubDate: string;
-  id: string;
-  description: string;
   content: string;
   publishedEpoch: number;
 }
