@@ -13,7 +13,7 @@ const config: Config.InitialOptions = {
         diagnostics: {
           ignoreCodes: ["TS151001"],
         },
-        tsconfig: "./src/tsconfig.json",
+        tsconfig: "./test/tsconfig.json",
       },
     ],
   },

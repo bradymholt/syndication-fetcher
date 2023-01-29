@@ -3,9 +3,8 @@
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "node",
-    "strict": true,
-    "outDir": "../dist/esm",
-    "declaration": true
+    "strict": true
   },
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts"],
+  "references": [{ "path": "../src" }]
 }
