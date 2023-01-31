@@ -85,8 +85,8 @@ describe("rss", () => {
     );
   });
 
-	it("complicated single entry", async () => {
-		axios.get = jest.fn().mockResolvedValue({
+  it("complicated multiple entries", async () => {
+    axios.get = jest.fn().mockResolvedValue({
       data: `\    
 			<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:sy="http://purl.org/rss/1.0/modules/syndication/" xmlns:admin="http://webns.net/mvcb/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
 			<channel>
@@ -141,7 +141,7 @@ describe("rss", () => {
 			</rss>`,
     });
 
-		const result = await fetchFeed("https://www.example.com/atom");
+    const result = await fetchFeed("https://www.example.com/atom");
     expect(result).toEqual(
       expect.objectContaining({
         title: "A List Apart: The Full Feed",
@@ -152,5 +152,50 @@ describe("rss", () => {
         ]),
       })
     );
-	});
+  });
+
+  it("feed without guids", async () => {
+    axios.get = jest.fn().mockResolvedValue({
+      data: `\    
+<rss xmlns:dc="https://purl.org/dc/elements/1.1/" xmlns:content="https://purl.org/rss/1.0/modules/content/" xmlns:atom="https://www.w3.org/2005/Atom" version="2.0">
+<channel>
+			<title>Matt Fantinel - Web Developer</title>
+			<link>https://fantinel.dev</link>
+			<description>I'm a developer aiming to build things that spark joy. I build fun stuff on the web, and sometimes write about it.</description>
+			<item>
+			<title>2022 In Hindsight</title>
+			<description>A year of big changes, both to me and to the world.</description>
+			<link>https://fantinel.dev/2022-year-in-review/</link>
+			<pubDate>2022-12-19T00:00:00.000Z</pubDate>
+			<category term="Meta"/>
+			<media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://fantinel.dev/images/posts/2022-year-in-review/cover.jpg"/>
+			<media:content xmlns:media="http://search.yahoo.com/mrss/" medium="image" url="https://fantinel.dev/images/posts/2022-year-in-review/cover.jpg"/>
+			</item>
+			<item>
+			<title>Thoughts on GitHub Copilot</title>
+			<description>I was initially skeptical about it, but I've come to appreciate it more and more as I use it.</description>
+			<link>https://fantinel.dev/github-copilot-thoughts/</link>
+			<pubDate>2022-09-05T00:00:00.000Z</pubDate>
+			<category term="Tools"/>
+			<category term="Programming"/>
+			<media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://fantinel.dev/images/posts/github-copilot-thoughts/cover.jpg"/>
+			<media:content xmlns:media="http://search.yahoo.com/mrss/" medium="image" url="https://fantinel.dev/images/posts/github-copilot-thoughts/cover.jpg"/>
+			</item>
+</channel>
+</rss>`,
+    });
+		
+		const result = await fetchFeed("https://www.example.com/atom");
+    expect(result).toEqual(
+      expect.objectContaining({
+        title: "Matt Fantinel - Web Developer",
+        items: expect.arrayContaining([
+          expect.objectContaining({
+						id: "https://fantinel.dev/github-copilot-thoughts/",
+            link: "https://fantinel.dev/github-copilot-thoughts/",
+          }),
+        ]),
+      })
+    );
+  });
 });

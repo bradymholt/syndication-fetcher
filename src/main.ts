@@ -70,7 +70,7 @@ export function parseRssFeed(rawRssDocument: any) {
       description: getFeedElementText(item.description),
       link: getFeedElementText(item.link),
       pubDate: getFeedElementText(item.pubDate),
-      id: getFeedElementText(item.guid),
+      id: getFeedElementText(item.guid) || getFeedElementText(item.link),
       content: getFeedElementText(item["content:encoded"]) || getFeedElementText(item.description),
       publishedEpoch: new Date(getFeedElementText(item.pubDate)).getTime(),
     } as IFeedItem;
