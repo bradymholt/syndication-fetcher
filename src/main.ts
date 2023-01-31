@@ -117,6 +117,6 @@ function getFeedElementText(element: any) {
   if (!element) {
     return null;
   } else {
-    return element._cdata || element._text || "";
+    return (element._cdata || element._text || "").trim();
   }
 }
