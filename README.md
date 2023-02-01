@@ -11,17 +11,12 @@ npm install syndication-fetcher
 ## Usage
 
 ```javascript
-import { fetchAndParseFeed } from "syndication-fetcher";
+import { fetchFeed } from "syndication-fetcher";
+// or using CommonJS
+// const { fetchFeed } = require("syndication-fetcher");
 
 const feed = await fetchFeed("https://example.com/feed.xml");
-/* feed is an object with the following properties:
-{
-  title: string;
-  description: string;
-  link: string;  
-  items: Array<IFeedItem>;
-}
-*/
+/* `feed` is an object that conforms to the IFeed interface described below */
 ```
 
 ## TypeScript types
@@ -34,7 +29,7 @@ interface IFeed {
   items: Array<IFeedItem>;
 }
 
-export interface IFeedItem {
+interface IFeedItem {
   id: string;
   title: string;
   description: string;
