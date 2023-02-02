@@ -21,12 +21,10 @@ export interface IFeedItem {
   description: string;
   /** The link to the HTML version of the feed item */
   link: string;
-  /** The item publish date as a string */
-  pubDate: string;
+  /** The item publish date */
+  pubDate: Date | null;
   /** The item contents */
   content: string;
-  /** The item publish date represented as an epoch number (seconds since 00:00:00 UTC on 1 January 1970) */
-  publishedEpoch: number;
 }
 
 export async function fetchFeed(feedUrl: string) {
@@ -65,15 +63,18 @@ export function parseRssFeed(rawRssDocument: any) {
 
   const items = Array.isArray(sourceRssChannel.item) ? sourceRssChannel.item : [sourceRssChannel.item];
   const feedItems: Array<IFeedItem> = items.map((item: any) => {
-    return {
+    const pubDateText = getFeedElementText(item.pubDate);
+    const pubDate = pubDateText ? new Date(pubDateText) : null;
+
+    const feedItemResult: IFeedItem = {
       title: getFeedElementText(item.title),
       description: getFeedElementText(item.description),
       link: getFeedElementText(item.link),
-      pubDate: getFeedElementText(item.pubDate),
+      pubDate,
       id: getFeedElementText(item.guid) || getFeedElementText(item.link),
       content: getFeedElementText(item["content:encoded"]) || getFeedElementText(item.description),
-      publishedEpoch: new Date(getFeedElementText(item.pubDate)).getTime(),
-    } as IFeedItem;
+    };
+    return feedItemResult;
   });
 
   parsedFeed.items = feedItems;
@@ -97,15 +98,19 @@ export function parseAtomFeed(rawAtomDocument: any) {
 
   const items = Array.isArray(sourceAtomFeed.entry) ? sourceAtomFeed.entry : [sourceAtomFeed.entry];
   const feedItems: Array<IFeedItem> = items.map((currentEntry: any) => {
-    return {
+    const pubDateText = getFeedElementText(currentEntry.published);
+    const pubDate = pubDateText ? new Date(pubDateText) : null;
+
+    const feedItemResult: IFeedItem = {
       title: getFeedElementText(currentEntry.title),
       description: getFeedElementText(currentEntry.description),
       link: currentEntry.link._attributes.href,
-      pubDate: getFeedElementText(currentEntry.published),
+      pubDate,
       id: getFeedElementText(currentEntry.id),
       content: getFeedElementText(getFeedElementText(currentEntry.content)),
-      publishedEpoch: new Date(getFeedElementText(currentEntry.published)).getTime(),
-    } as IFeedItem;
+    };
+
+    return feedItemResult;
   });
 
   parsedFeed.items = feedItems;

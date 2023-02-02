@@ -34,8 +34,7 @@ interface IFeedItem {
   title: string;
   description: string;
   link: string;
-  pubDate: string;
-  content: string;
-  publishedEpoch: number;
+  pubDate: Date | null;
+  content: string; 
 }
 ```
